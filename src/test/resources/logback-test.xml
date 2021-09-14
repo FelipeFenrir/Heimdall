@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020. Fenrir Solucoes em Tecnologia. All rights reserved.
+  ~  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
+  -->
+
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- Logging into the build folder of your project -->
+    <property name="LOGS" value="./logs" />
+
+    <!-- You can override this to have a custom pattern -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" />
+
+    <!-- Appender to log to console -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <springProfile name="native">
+        <!-- LOG everything at INFO level -->
+        <root level="INFO">
+            <appender-ref ref="console" />
+        </root>
+
+        <logger name="br.com.fenrir" level="DEBUG">
+            <appender-ref ref="console" />
+        </logger>
+
+        <logger name="com.netflix.eureka" level="OFF">
+            <appender-ref ref="console" />
+        </logger>
+
+        <logger name="com.netflix.discovery" level="OFF">
+            <appender-ref ref="console" />
+        </logger>
+    </springProfile>
+
+</configuration>

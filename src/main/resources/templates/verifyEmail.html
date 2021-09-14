@@ -1,0 +1,25 @@
+<!--
+  ~ Copyright (c) 2020. Fenrir Solucoes em Tecnologia. All rights reserved.
+  ~  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
+  -->
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/simple}">
+    
+    <body>
+
+        <div layout:fragment="container">
+
+            <div th:if="${successMessage}" class="alert alert-success"
+                 role="alert" th:text="${successMessage}"></div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert"
+                 th:text="${errorMessage}"></div>
+
+        </div>
+        <!-- /container -->
+    </body>
+</html>

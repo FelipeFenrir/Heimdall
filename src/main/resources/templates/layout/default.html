@@ -1,0 +1,69 @@
+<!--
+  ~ Copyright (c) 2020. Fenrir Solucoes em Tecnologia. All rights reserved.
+  ~  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
+  -->
+
+<!DOCTYPE html>
+<html 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head th:replace="fragments/header :: head"></head>
+    <body>
+
+        <button onclick="topFunction()" id="toTheTopBtn" th:title="#{common.gotothetop}">Top</button>
+        <div class="wrapper padding">
+            <div id="page">
+
+                <nav class="navigation" th:replace="fragments/navigation"></nav>
+
+                <div class="container">
+                    <div layout:fragment="container"></div>
+                </div>
+
+                <div th:replace="fragments/footer"></div>
+            </div>
+        </div>
+        
+        <div th:replace="fragments/body_modals"></div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            
+        <script type="text/javascript"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/hideshowpassword/2.0.8/hideShowPassword.min.js"></script>
+            
+        <!-- Custom script -->
+        <script type="text/javascript"
+            th:src="@{js/fenrir.js}"
+            src="js/fenrir.js"></script>
+
+        <script type="text/javascript">
+            function initFingerprintJS() {
+                FingerprintJS.load().then(fp => {
+                // The FingerprintJS agent is ready.
+                // Get a visitor identifier when you'd like to.
+                    fp.get().then(result => {
+                        // This is the visitor identifier:
+                        const visitorId = result.visitorId;
+                        console.log(visitorId);
+                    });
+                });
+            }
+        </script>
+
+        <!-- Fingerprint2 JS -->
+        <script type="text/javascript" async
+                src="//cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"
+                onload="initFingerprintJS()"></script>
+
+
+    </body>
+</html>

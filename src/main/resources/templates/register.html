@@ -1,0 +1,130 @@
+<!--
+  ~ Copyright (c) 2020. Fenrir Solucoes em Tecnologia. All rights reserved.
+  ~  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
+  -->
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/simple}">
+
+    <body>
+
+        <div layout:fragment="container">
+            <div th:replace="fragments/side_nav_lang"></div>
+            <div class="row">
+                <div th:replace="fragments/old_ie_warn"></div>
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h3>
+                                    <!--<i class="glyphicon glyphicon-user" style="font-size:2em;"></i>-->
+                                    <div class="div-img-signin" style="font-size:2em;">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </div>
+                                </h3>
+                                <h2 class="text-center" th:text="#{registration.header}">Sign-Up</h2>
+                                <p th:text="#{registration.explain}">Enter your e-mail address and we'll send you a link to your registration.</p>
+                                <div class="panel-body">
+
+                                    <form enctype="multipart/form-data" 
+                                          autocomplete="off" 
+                                          action="#" 
+                                          th:action="@{/register}"
+                                          th:object="${user}"
+                                          method="post" 
+                                          class="form-signin" 
+                                          role="form"
+                                          data-toggle="validator"
+                                          novalidate="true">
+
+                                        <!--<h2 class="form-signin-heading" th:text="#{registration.header}"></h2>-->
+
+                                        <div th:if="${confirmationMessage}" class="alert alert-success"
+                                             role="alert" th:text="${confirmationMessage}"></div>
+
+                                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert"
+                                             th:text="${errorMessage}"></div>
+
+<!--                                        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                                             class="validation-message alert alert-danger" role="alert"></div>
+
+                                        <div class="form-group input-group has-feedback">
+                                            <span class="input-group-addon"> 
+                                                <span class="glyphicon glyphicon-user"></span>
+                                            </span> 
+                                            <input 
+                                                type="text"
+                                                th:field="*{username}"
+                                                th:placeholder="#{registration.usernamePlaceholder}"
+                                                class="form-control" 
+                                                data-error="#{registration.invalidUsername}"
+                                                required="true" /> 
+                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                        </div>-->
+
+                                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                             class="validation-message alert alert-danger" role="alert"></div>
+
+
+                                        <div class="form-group">
+                                            <!--<div class="input-group has-feedback">-->
+                                            <div class="input-group">
+                                                <span class="input-group-addon"> 
+                                                    <span class="glyphicon glyphicon-envelope"></span>
+                                                </span> 
+                                                <input 
+                                                    type="email" 
+                                                    th:field="*{email}" 
+                                                    th:placeholder="#{registration.emailPlaceholder}" 
+                                                    class="form-control" 
+                                                    data-error="#{registration.invalidEmail}" 
+                                                    required="true" 
+                                                    tabindex="0" 
+                                                    aria-label="" /> 
+                                                <!--<span class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+                                            </div>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" 
+                                                    class="btn btn-lg btn-primary btn-block" 
+                                                    th:text="#{registration.buttonText}"
+                                                    tabindex="1" 
+                                                    aria-label="" >Save</button>
+                                        </div>
+
+                                        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="">
+                                            <div class="bottom-group">
+                                                <span>
+                                                    <span th:text="#{registration.login.text}"></span> 
+                                                    <a th:href="@{/login}" 
+                                                       th:text="#{registration.login.link}"
+                                                       tabindex="2" 
+                                                       aria-label="" ></a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap Validator plugin -->
+        <script type="text/javascript" 
+        src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
+        <!-- Google ReCaptcha API -->
+        <!--<script type="text/javascript" src="https://www.google.com/recaptcha/api.js"></script>-->
+
+    </body>
+
+</html>

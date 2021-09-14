@@ -1,0 +1,178 @@
+<!--
+  ~ Copyright (c) 2020. Fenrir Solucoes em Tecnologia. All rights reserved.
+  ~  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
+  -->
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/simple}">
+
+    <body>
+
+        <div layout:fragment="container">
+            <div th:replace="fragments/side_nav_lang"></div>
+            <div class="row">
+                <div th:replace="fragments/old_ie_warn"></div>
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h3>
+                                    <!--<i class="glyphicon glyphicon-user" style="font-size:2em;"></i>-->
+                                    <div class="div-img-signin" style="font-size:2em;">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </div>
+                                </h3>
+                                <h2 class="text-center" th:text="#{confirmationPassword.header}">Reset password</h2>
+                                <p th:text="#{confirmationPassword.confirmation.explain}">Enter your password and accept the terms to confirm your registration.</p>
+                                <div class="panel-body">
+
+                                    <div th:if="${invalidToken}" class="alert alert-danger" role="alert"
+                                         th:text="${invalidToken}"></div>
+
+                                    <form th:if="!${invalidToken}" 
+                                          enctype="multipart/form-data" 
+                                          autocomplete="off" 
+                                          class="form-signin" 
+                                          id="passwordForm"
+                                          role="form" 
+                                          action="#" 
+                                          th:object="${setPassword}"
+                                          th:action="@{/confirm}" 
+                                          method="post"
+                                          data-toggle="validator" 
+                                          novalidate="true">
+
+                                        <!--<h2 class="form-signin-heading">Password setup</h2>-->
+
+                                        <div th:if="${successMessage}" class="alert alert-success"
+                                             role="alert" th:text="${successMessage}"></div>
+
+                                        <input type="hidden" name="token" th:value="${confirmationToken}" />
+
+                                        <div th:if="${successMessage}">
+                                            <a th:href="@{${loginLink}}" 
+                                               class="btn btn-lg btn-primary btn-block"
+                                               tabindex="0" aria-label="">
+                                                <span th:text="#{login.buttonText}"></span>
+                                            </a>
+                                            <br />
+                                        </div>
+
+                                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert"
+                                             th:text="${errorMessage}"></div>
+
+                                        <div th:if="!${successMessage}" class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"> <span
+                                                        class="glyphicon glyphicon-lock"></span>
+                                                </span>
+                                                <input name="password" 
+                                                       type="password" 
+                                                       id="password"
+                                                       th:placeholder="#{registration.passwordPlaceholder}" 
+                                                       class="form-control" 
+                                                       required="true"
+                                                       data-error="" 
+                                                       tabindex="0"
+                                                       aria-label="" /> 
+                                                <div class="input-group-addon">
+                                                    <a href="#"><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i></a>
+                                                </div>
+                                                <!--<span class="glyphicon" aria-hidden="true"></span>-->
+                                            </div>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+
+                                        <div th:if="!${successMessage}" class="form-group">
+                                            <!--<div class="input-group has-feedback">-->
+                                            <div class="input-group">
+                                                <span class="input-group-addon"> 
+                                                    <span class="glyphicon glyphicon-lock"></span>
+                                                </span> 
+                                                <input type="password" 
+                                                       class="form-control"
+                                                       id="signup-password-confirm" 
+                                                       th:placeholder="#{registration.confirmPasswordPlaceholder}" 
+                                                       name="confirmPassword" 
+                                                       required="true" 
+                                                       data-error="" 
+                                                       tabindex="1" 
+                                                       aria-label="" />
+                                                <div class="input-group-addon">
+                                                    <a href="#"><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+
+                                        <!--<div th:if="!${successMessage}" class="form-group form-check has-feedback">-->
+                                        <div th:if="!${successMessage}" class="form-group form-check">
+                                            <input type="checkbox" 
+                                                   class="form-check-input"
+                                                   id="terms" 
+                                                   name="terms" 
+                                                   required="true" 
+                                                   data-error="" 
+                                                   tabindex="2" 
+                                                   aria-label="" />
+                                            <label class="form-check-label" for="terms">
+                                                <span th:text="#{registration.term.text1}">I agree with the </span>
+                                                <a href="#" th:text="#{term.label.link}" tabindex="3" aria-label="">
+                                                    terms and conditions
+                                                </a>
+                                                <span th:text="#{registration.term.text2}"> for Registration.</span>
+                                            </label>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button th:if="!${successMessage}" 
+                                                    type="submit" 
+                                                    class="btn btn-lg btn-primary btn-block" 
+                                                    th:text="#{common.save.buttonText}" 
+                                                    tabindex="4" aria-label="">Save</button>
+                                        </div>
+
+                                        <div class="btn-toolbar justify-content-between" role="toolbar">
+                                            <div class="bottom-group">
+                                                <span>
+                                                    <span th:text="#{registration.login.text}"></span> 
+                                                    <a th:href="@{/login}" th:text="#{registration.login.link}"
+                                                       tabindex="5" aria-label=""></a>
+                                                </span>
+                                            </div>
+                                            <div class="bottom-group">
+                                                <span>
+                                                    <span th:text="#{login.registration.text}"></span> 
+                                                    <a th:href="@{/register}" th:text="#{login.registration.link}"
+                                                       tabindex="6" aria-label=""></a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap Validator plugin -->
+        <script type="text/javascript" 
+        src="//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
+        <script type="text/javascript" 
+        src="//cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+
+        <script type="text/javascript" 
+        th:src="@{js/fv.min.js}"></script>
+
+        <!-- Google ReCaptcha API -->
+        <!--<script type="text/javascript" src="https://www.google.com/recaptcha/api.js"></script>-->
+
+    </body>
+</html>

@@ -1,0 +1,345 @@
+body {    
+    margin: 0;
+    font-family: Poppins,sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #525f7f;
+    text-align: left;
+    background-color: #1e1e2f;
+    display: block;
+    /*padding-top: 70px;*/
+}
+
+/*Error text*/
+.error-message:first-letter {
+    text-transform: capitalize;
+}
+/*end of Error text*/
+
+
+
+/*Profile Page*/
+.fb-profile img.fb-image-lg {
+    z-index: 0;
+    width: 100%;  
+    margin-bottom: 10px;
+}
+.fb-image-profile {
+    margin: -90px 10px 0px 50px;
+    z-index: 9;
+    width: 20%; 
+}
+@media (max-width:768px) {
+    .fb-profile-text>h1 {
+        font-weight: 700;
+        font-size:16px;
+    }
+
+    .fb-image-profile {
+        margin: -45px 10px 0px 25px;
+        z-index: 9;
+        width: 20%; 
+    }
+}
+/*end of Profile Page*/
+
+
+
+/*Login, Forgoten Pass and Register Page*/
+.form-signin {
+    max-width: 620px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    /*margin-bottom: -1px;*/
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    /*margin-bottom: -1px;*/
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.bottom-group {
+    padding-top: 10px;
+}
+.div-img-signin{
+    background-image: url("../images/logo.png");
+    width: 128px;
+    height: 128px;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+.div-img-signin i {
+    /*float: right;*/
+    /*font-size: smaller;*/
+    float: right;
+    font-size: 24px;
+    padding-right: 50px;
+    padding-top: 70%;
+    color: #27293d;
+}
+#mySidenav a {
+    /*position: absolute;*/
+    /*left: -80px;*/
+    position: fixed;
+    /*right: -80px;*/
+    right: -55px;
+    transition: 0.3s;
+    padding: 15px;
+    width: 100px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    /*border-radius: 0 5px 5px 0;*/
+    border-radius: 5px 0 0 5px;
+    z-index: 99;
+}
+#mySidenav a:hover {
+    /*left: 0;*/ /* On mouse-over, make the elements appear as they should */
+    right: 0; /* On mouse-over, make the elements appear as they should */
+}
+#lang-modal-link {
+    /*top: 200px;*/
+    background-color: #c253ed;
+}
+/*end of Login Page*/
+
+
+
+/*Footer Page*/
+footer {
+    position: fixed;
+    height: 50px;
+    bottom: 0;
+    width: 100%;
+    background-color: #1e1e2f;
+}
+footer p {
+    padding: 15px;
+}
+/*end of Footer Page*/
+
+
+
+/*Wrapper*/
+.wrapper {
+    position: relative;
+    top: 0;
+    height: 100vh;
+}
+.wrapper.padding {
+    padding-top: 70px;
+}
+@media (max-width:768px) {
+    .wrapper.padding {
+        padding-top: 10px;
+    }
+}
+/*end of Wrapper*/
+
+/*To The Top Button*/
+#toTheTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #ba54f5!important;
+    background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca)!important;
+    background-image: -moz-linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca)!important;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+#toTheTopBtn:hover {
+    background-color: #1e1e2f;
+}
+/*end of To The Top Button*/
+
+/*switch button*/
+.switch {
+    position: relative;
+    display: inline-block;
+    /*width: 60px;*/
+    /*height: 34px;*/
+    width: 50px;
+    height: 24px;
+}
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    /*height: 26px;*/
+    /*width: 26px;*/
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .slider {
+    /*background-color: #2196F3;*/
+    background-color: #ba54f5!important;
+    background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca)!important;
+    background-image: -moz-linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca)!important;
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+/*end of switch button*/
+
+/*Nav custom style*/
+.nav-custom-style {
+    position: relative;
+    float: right;
+    width: 100%;
+    /* min-height: 100vh; */
+    border-top: 2px solid #e14eca;
+    background: linear-gradient(#1e1e2f,#1e1e24);
+    transition: all .5s cubic-bezier(.685,.0473,.346,1);
+}
+@media (max-width: 768px) {
+    .nav-centered-btn {
+        float: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+/*end of Nav custom style*/
+
+
+
+/*Workaround Bootstrap*/
+.navbar-brand {
+    padding: 0px; /* firefox bug fix */
+}
+.navbar-brand>img {
+    max-height: 100%;
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+
+    /* probably not needed anymore, but doesn't hurt */
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+.panel {
+    background-color: #27293d;
+    border: none;
+}
+.btn {
+    display: inline-block;
+    font-weight: 600;
+    /*color: #525f7f;*/
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 11px 40px;
+    font-size: 1.6rem;
+    line-height: 1.35em;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-group-sm>.btn, .btn-sm {
+    font-size: .75rem;
+    line-height: 1.35;
+    border-radius: .25rem;
+}
+.btn-primary {
+    background: #e14eca;
+    background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    background-color: #e14eca;
+    transition: all .15s ease;
+    box-shadow: none;
+    color: #fff;
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #d725bb;
+    border-color: #cd23b2;
+}
+.btn-primary.btn-simple {
+    color: #e14eca;
+    border-color: #e14eca;
+    background: transparent;
+}
+.btn-primary.btn-simple.active {
+    border-color: #e14eca!important;
+}
+.btn-group .btn.active {
+    box-shadow: 2px 2px 6px rgba(0,0,0,.4);
+    transform: translateY(-1px);
+    -webkit-transform: translateY(-1px);
+}
+.btn-primary.active, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary:focus, .btn-primary:hover {
+    background-color: #ba54f5!important;
+    background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca)!important;
+    background-image: -moz-linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca)!important;
+    color: #fff;
+    box-shadow: none;
+}
+.form-control input {
+    background-color: #1e1e2f;
+    border-color: #9d9d9d;
+}
+

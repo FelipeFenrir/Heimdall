@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (c) 2020. Fenrir Solucoes em Tecnologia. All rights reserved.
+  ~  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
+  -->
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+
+    <body>
+
+        <div layout:fragment="container">
+
+            <ul class="nav">
+                <li class="nav-item"><a class="nav-link" th:href="@{/changePassword}" th:text="#{link.changePassword}"></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/changeEmail}" th:text="#{link.changeEmail}"></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/deleteAccount}" th:text="#{link.deleteAccount}"></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/me}" th:text="#{link.me}"></a></li>
+            </ul>
+
+        </div>
+        <!-- /container -->
+    </body>
+</html>

@@ -1,0 +1,17 @@
+<!--
+  ~ Copyright (c) 2020. Fenrir Solucoes em Tecnologia. All rights reserved.
+  ~  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
+  -->
+
+<footer>
+    <div class="container">
+        <p class="text-center">
+            <span class="glyphicon glyphicon-copyright-mark"><span class="sr-only">&copy;</span></span> FenrirIT.com
+            <span sec:authorize="isAuthenticated()" style="display: inline-block;">
+                | <span th:text="#{footer.logged}"></span>: <span sec:authentication="name"></span> |
+                <span th:text="#{footer.roleDataMappers}"></span>: <span sec:authentication="principal.authorities"></span> |
+                <a th:href="@{/performlogout}" th:text="#{logout.header}"></a>
+            </span>
+        </p>
+    </div>
+</footer>

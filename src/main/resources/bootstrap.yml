@@ -1,0 +1,264 @@
+# =============================================
+# Server
+# =============================================
+server:
+    port: ${SERVER:1999}
+#    compression:
+#        enabled: true
+#    connection-timeout: 3000
+    ssl:
+        enabled: ${SSL.ENABLE:true}
+        key-store: ${SSL.STORE:src/main/resources/keystore.p12}
+        key-store-password: ${SSL.PASS:password}
+        keyStoreType: ${SSL.STORETYPE:PKCS12}
+        keyAlias: ${SSL.ALIAS:fenrir}
+    http:
+        port: ${HTTP.PORT:9000}
+        scheme: ${HTTP.SCHEME:http}
+    servlet:
+        context-path: /auth
+        session:
+            cookie:
+                name: JWT_SESSIONID
+
+# =============================================
+# Basic Security
+# =============================================
+security:
+    basic:
+        enable: false
+    oauth2:
+        resource:
+            id: AUTH_RESOURCE
+
+# =============================================
+# Spring
+# =============================================
+spring:
+    profiles:
+        active: native
+#        include:
+#        - development
+#        - staging
+#        - production
+    application:
+        name: auth-server
+
+    # =============================================
+    # Flyway
+    # =============================================
+    flyway:
+        locations: classpath:scripts/migration,classpath:scripts/development
+
+    # =============================================
+    # Jackson UTC
+    # =============================================
+    jackson:
+        time-zone: UTC
+
+# =============================================
+# MANAGEMENT
+# =============================================
+management:
+#    admin:
+#        url: http://localhost:8030
+    endpoints:
+        # expose all endpoints:
+        web:
+            exposure:
+                include: "*"
+                exclude: env
+#                base-path: /
+        # disable beans endpoint
+        beans.enable: false
+    endpoint:
+        health:
+            show-details: ALWAYS
+
+# =============================================
+# Documenttation properties
+# =============================================
+app:
+    title: @project.artifactId@
+    description: @project.description@
+    version: @project.version@
+    contact:
+        name: Felipe de Andrade Batista
+        url: https://bitbucket.org/FenrirIT/fenrirms/src/master/
+        email: feandrade.it@gmail.com
+    package:
+        controller: br.com.fenrir.auth.controller
+
+# =============================================
+# Info
+# =============================================
+info:
+    app:
+        name: ${spring.application.name}
+        encoding: @project.build.sourceEncoding@
+        java:
+            version: @java.version@
+            source: @java.version@
+            target: @java.version@
+        type: Spring Boot
+
+---
+# Profile Native
+
+# =============================================
+# Documenttation properties
+# =============================================
+app:
+    swagger:
+        enabled: true
+        auth:
+            client: SWAGGER_CLIENT_APP
+            password: password
+
+# =============================================
+# Authentications properties
+# =============================================
+auth:
+    #redirectionUrl: ${AUTH.REDIRECTURL:${server.http.scheme}://localhost:${server.http.port}/auth}
+    emailFrom: ${AUTH.EMAILFROM:noreply.registration@fenrir.com}
+    registrationEmailFrom: ${AUTH.REGISTRYEMAILFROM:noreply.registration@fenrir.com}
+    confirmationEmailFrom: ${AUTH.CONFIRMEMAILFROM:noreply.registration@fenrir.com}
+    corsAllowedOrigins: '*'
+    checkUserScopes: true
+    locationFileJKS: ${AUTH.JKS:src/main/resources/jwt.jks}
+    jksKeyPair: ${AUTH.JKSKEYPAIR:jwt}
+    jksPassword: ${AUTH.JKSPASSWORD:password}
+    expiryDateResetToken: ${AUTH.EXPIRYDATE_RESET_TOKEN:30}
+    expiryDateConfirmToken: ${AUTH.EXPIRYDATE_CONFIRM_TOKEN:30}
+
+# =============================================
+# Spring
+# =============================================
+spring:
+    profiles: native
+
+    # =============================================
+    # SMTP email
+    # =============================================
+    mail:
+        host: ${MAIL.HOST:localhost}
+#        username: ${MAIL.USER:fenrir@fenrir.com}
+#        password: ${MAIL.PASS:fenrir}
+        port: ${MAIL.PORT:25}
+#        properties:
+#            mail:
+#                smtp:
+#                    auth: ${SMTP.AUTH:true}
+#                    starttls:
+#                        enable: ${SMTP.TLS:true}
+        protocol: ${SMTP.PROTOCOL:smtp}
+        defaultEncoding: UTF-8
+
+    # =============================================
+    # Data Source
+    # =============================================
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: org.h2.Driver
+        # Local DataBase
+        #jdbc-url: jdbc:h2:~/Documents/NetBeansProjects/Pessoais/master/fenrirms/src/db/auth/securedata;MODE=MySQL;AUTO_SERVER=TRUE;
+        jdbc-url: jdbc:h2:D:/1513 IRON/Documents/Projetos/Java/FenrirMS/src/db/auth/securedata;MODE=MySQL;AUTO_SERVER=TRUE;
+        # Server DataBase
+        #jdbc-url: jdbc:h2:tcp://localhost:1521/auth/securedata;MODE=MySQL;AUTO_SERVER=TRUE;
+        platform: h2
+        username: sa
+        password:
+        hikari:
+            idle-timeout: 10000
+    #            connection-test-query: SELECT 1 FROM DUAL
+    #            minimum-idle: 1
+    #            maximum-pool-size: 5
+    #            pool-name: fenrirPool
+    #            auto-commit: false
+
+
+    # =============================================
+    # H2 Data Base Embeded
+    # =============================================
+    h2:
+        console:
+            enabled: true
+            path: /h2
+
+    # =============================================
+    # Spring Boot Admin Client
+    # =============================================
+    boot:
+        admin:
+            client:
+                enable: false
+
+    # =============================================
+    # Spring Sleuth
+    # =============================================
+    sleuth:
+        enabled: true
+        sampler:
+            probability: 1.0
+
+    # =============================================
+    # Zipkin
+    # =============================================
+    zipkin:
+        base-url: http://localhost:9411/
+        enabled: true
+        sender:
+            type: web
+        service:
+            name: ${spring.application.name}
+
+# =============================================
+# EUREKA
+# =============================================
+eureka:
+    client:
+        enabled: false
+
+# =============================================
+# RIBBON
+# =============================================
+ribbon:
+    eureka:
+        enabled: false
+
+# =============================================
+# = Google Recaptcha configurations
+# = https://www.google.com/recaptcha/admin#list
+# =============================================
+google:
+    recaptcha:
+        url: ${GOOGLE_RECAPTCHA_LINK:https://www.google.com/recaptcha/api/siteverify}
+        key: ${GOOGLE_RECAPTCHA_KEY:fenrirtest}
+        secret: ${GOOGLE_RECAPTCHA_SECRET:fenrirtest}
+
+---
+# Other Profiles
+
+# =============================================
+# Spring
+# =============================================
+spring:
+    profiles: development
+
+    # =============================================
+    # Config Server - Cloud
+    # =============================================
+    cloud:
+        config:
+#            name: ${spring.application.name}
+#            discovery:
+#                serviceId: ${SPRING_CONFIG_NAME:config-server}
+#                enabled: true
+            fail-fast: true
+            uri: ${SPRING_CONFIG_URI:https://localhost:1888}
+            retry:
+                initialInterval: 12000
+                maxInterval: 12000
+                maxAttempts: 30
+            username: fenrirconfig
+            password: fenrirconfig
