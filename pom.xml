@@ -8,250 +8,90 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>br.com.fenrir</groupId>
-    <artifactId>auth-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-    <name>auth-server</name>
-    <description>
-        Authorization Server.
-    </description>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.4.RELEASE</version>
-        <relativePath/>
+        <version>2.7.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <groupId>com.heimdall</groupId>
+    <artifactId>heimdall</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>heimdall</name>
+    <description>
+        Heimdall is a Authorization Server.
+    </description>
+
+    <developers>
+        <developer>
+            <id>FelipeFenrir</id>
+            <name>Fenrir Solutions</name>
+            <email>fenrir.sysit@gmail.com</email>
+            <url>https://FelipeFenrir.github.io</url>
+        </developer>
+    </developers>
+
     <properties>
-        <start-class>br.com.fenrir.auth.AuthServer</start-class>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <application.name.value>heimdall</application.name.value>
+
+        <!-- Properties -->
         <java.version>11</java.version>
-        <docker.image.prefix>fenrir</docker.image.prefix>
-        <docker.port.expose>9000</docker.port.expose>
-        <spring-cloud.version>Finchley.RC1</spring-cloud.version>
+
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
+
+        <maven.compile.encoding>UTF-8</maven.compile.encoding>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <project.build.sourceEncoding>${maven.compile.encoding}</project.build.sourceEncoding>
+        <project.build.outputEncoding>${maven.compile.encoding}</project.build.outputEncoding>
+        <project.reporting.sourceEncoding>${maven.compile.encoding}</project.reporting.sourceEncoding>
+        <project.reporting.outputEncoding>${maven.compile.encoding}</project.reporting.outputEncoding>
+
         <directory-check>src/main/check</directory-check>
-        <directory-docker>src/main/docker</directory-docker>
         <directory-resource>src/main/resources</directory-resource>
         <directory-test-resource>src/test/resources</directory-test-resource>
+
+        <!-- Dependencies -->
+        <lombok.version>1.18.24</lombok.version>
+        <mapstruct.version>1.5.2.Final</mapstruct.version>
+
+        <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
+
+        <opentracing-spring.version>3.3.1</opentracing-spring.version>
+        <opentracing-jdbc.version>0.2.15</opentracing-jdbc.version>
+
+        <reflections.version>0.10.2</reflections.version>
+
+<!--        <assertj-core.version>3.11.1</assertj-core.version>-->
+<!--        <validation-api.version>2.0.1.Final</validation-api.version>-->
+
+        <!-- Plugins -->
+        <spring-boot-maven-plugin.version>2.7.1</spring-boot-maven-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+
+
+        <sonar.organization>FelipeFenrir-github</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${basedir}/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+
     </properties>
 
-    <dependencies>
-        <!-- Add WEB Dependency -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- Add Configuration Processor Dependency -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Add Data JPA Dependency -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <!-- Add HATEOAS Dependency -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-hateoas</artifactId>
-        </dependency>
-
-        <!-- Add Cloud Data Client Netflix Eureka Service Discovery Dependency -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <!-- Add Cloud Data Client Netflix for Feign -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-
-        <!-- Add Cloud Data Client Spring Cloud Config Dependency -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-
-        <!-- Add ZipKin for Get Logging -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
-        <!-- Add Sleuth for Logging aplication -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <!-- Dependencies for LogStash -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>6.6</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-
-        <!-- Spring boot Actuator -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!-- Spring boot Mail -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
-
-        <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency> -->
-
-        <!-- Spring Oauth 2 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>
-
-        <!-- Tomcat -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
-
-        <!-- Joloika to advanced resources JMXBeans and Monitoring-->
-        <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-core</artifactId>
-        </dependency>
-                
-        <!-- Swagger (https://swagger.io/) -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.8.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- SpringFox (http://springfox.github.io/springfox/)-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.8.0</version>
-            <scope>compile</scope>
-        </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-boot-starter</artifactId>-->
-<!--            <version>3.0.0</version>-->
-<!--        </dependency>-->
-        
-        <!-- Templating -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        <!-- Thymeleaf -->
-        <dependency>
-            <groupId>nz.net.ultraq.thymeleaf</groupId>
-            <artifactId>thymeleaf-layout-dialect</artifactId>
-        </dependency>
-        <!-- Thymeleaf Extras -->
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-        </dependency>
-        
-        <!-- Database migration tool -->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-        
-        <!-- Akumos Persistence (Modulo de Persistencia na Base de Dados) -->
-        <dependency>
-            <groupId>br.com.fenrir</groupId>
-            <artifactId>fenrir-sdk</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <!-- Akumos Utils (Modulo Utilitario) -->
-        <dependency>
-            <groupId>br.com.fenrir</groupId>
-            <artifactId>fenrir-utils</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <!-- Odin -->
-        <dependency>
-            <groupId>com.odin</groupId>
-            <artifactId>Odin</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        
-        <!-- H2 Database (http://www.h2database.com) -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-        
-        <!-- Lombok Project (https://projectlombok.org/) -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <!-- <scope>provided</scope> -->
-            <optional>true</optional>
-        </dependency>
-        
-        <!-- Add Test Dependency  -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Virtualized email server for tests -->
-        <dependency>
-            <groupId>com.icegreen</groupId>
-            <artifactId>greenmail</artifactId>
-            <version>1.5.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>core</module>
+        <module>application</module>
+        <module>infraestructure/datastore/h2-spring</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -264,304 +104,169 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-            <resource>
-                <directory>${directory-resource}</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.xml</include>
-                    <include>**/*.yml</include>
-                    <include>**/*.html</include>
-                    <include>**/*.js</include>
-                    <include>**/*.css</include>
-                    <include>**/*.png</include>
-                    <include>**/*.jpg</include>
-                    <include>**/*.gif</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.webmanifest</include>
-                    <include>**/*.sql</include>
-                    <include>**/*.json</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*.jks</exclude>
-                    <exclude>**/*.p12</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>${directory-resource}</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*.jks</include>
-                    <include>**/*.p12</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*.xml</exclude>
-                    <exclude>**/*.yml</exclude>
-                    <exclude>**/*.html</exclude>
-                    <exclude>**/*.js</exclude>
-                    <exclude>**/*.css</exclude>
-                    <exclude>**/*.png</exclude>
-                    <exclude>**/*.jpg</exclude>
-                    <exclude>**/*.gif</exclude>
-                    <exclude>**/*.properties</exclude>
-                    <exclude>**/*.webmanifest</exclude>
-                    <exclude>**/*.sql</exclude>
-                    <exclude>**/*.json</exclude>
-                </excludes>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                <directory>${directory-test-resource}</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.xml</include>
-                    <include>**/*.yml</include>
-                    <include>**/*.html</include>
-                    <include>**/*.js</include>
-                    <include>**/*.css</include>
-                    <include>**/*.png</include>
-                    <include>**/*.jpg</include>
-                    <include>**/*.gif</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.webmanifest</include>
-                    <include>**/*.sql</include>
-                    <include>**/*.json</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*.jks</exclude>
-                    <exclude>**/*.p12</exclude>
-                </excludes>
-            </testResource>
-            <testResource>
-                <directory>${directory-test-resource}</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*.jks</include>
-                    <include>**/*.p12</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*.xml</exclude>
-                    <exclude>**/*.yml</exclude>
-                    <exclude>**/*.html</exclude>
-                    <exclude>**/*.js</exclude>
-                    <exclude>**/*.css</exclude>
-                    <exclude>**/*.png</exclude>
-                    <exclude>**/*.jpg</exclude>
-                    <exclude>**/*.gif</exclude>
-                    <exclude>**/*.properties</exclude>
-                    <exclude>**/*.webmanifest</exclude>
-                    <exclude>**/*.sql</exclude>
-                    <exclude>**/*.json</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <finalName>${project.artifactId}</finalName>
-                    <mainClass>${start-class}</mainClass>
-                    <!--<addResources>true</addResources>-->
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-info</goal>
-                            <goal>repackage</goal>
-                        </goals>
-                        <configuration>
-                            <additionalProperties>
-                                <java.target>${maven.compiler.target}</java.target>
-                                <time>${maven.build.timestamp}</time>
-                            </additionalProperties>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <!-- Plugin for GIT -->
-            <!-- https://mvnrepository.com/artifact/pl.project13.maven/git-commit-id-plugin -->
-            <!-- 2.1.13 Version is avaliable for Maven 3.0.5, for newest
-            maven versions use with no version node -->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <configuration>
-                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                </configuration>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.10</version>
-                <configuration>
-                    <downloadJavadocs>true</downloadJavadocs>
-                    <downloadSources>true</downloadSources>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <configuration>
-                            <target>
-                                <copy file="target/${project.artifactId}.jar" tofile="src/main/docker/target/${project.artifactId}.jar"/>
-                                <copy file="Dockerfile" tofile="src/main/docker/target/Dockerfile"/>
-                                <copy file="run.sh" tofile="src/main/docker/target/run.sh"/>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
-<!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>$NO-MVN-MAN-VER$
-                <configuration>
-                    <archive>
-                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>-->
-            
-<!--            <plugin>-->
-<!--                <groupId>com.spotify</groupId>-->
-<!--                <artifactId>dockerfile-maven-plugin</artifactId>-->
-<!--                <version>1.4.13</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>default</id>-->
-<!--                        <goals>-->
-<!--                            <goal>build</goal>-->
-<!--                            <goal>push</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <configLocation>${directory-check}/checkstyle.xml</configLocation>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                        </configuration>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
-            <!-- JACOCO COBERTURA DE CODIGO -->
-            <!--            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.7.201606060606</version>
-                <executions>
-                    <execution>
-                        <id>pre-unit-test</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-unit-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        ####comentar###    <goal>check</goal>
-                        </goals>
-                        ####comentar### <configuration>
-                        ####comentar###     <rules>
-                        ####comentar###           implmentation is needed only for Maven 2  
-                        ####comentar###         <rule implementation="org.jacoco.maven.RuleConfiguration">
-                        ####comentar###             <element>BUNDLE</element>
-                        ####comentar###             <limits>
-                        ####comentar###                 <limit implementation="org.jacoco.report.check.Limit">
-                        ####comentar###                     <counter>INSTRUCTION</counter>
-                        ####comentar###                     <value>COVEREDRATIO</value>
-                        ####comentar###                     <minimum>0.95</minimum>			
-                        ####comentar###                 </limit>
-                        ####comentar###                   implmentation is needed only for Maven 2  
-                        ####comentar###                 <limit implementation="org.jacoco.report.check.Limit">
-                        ####comentar###                     <counter>COMPLEXITY</counter>
-                        ####comentar###                     <value>COVEREDRATIO</value>
-                        ####comentar###                     <minimum>0.75</minimum>
-                        ####comentar###                 </limit>
-                        ####comentar###             </limits>
-                        ####comentar###         </rule>
-                        ####comentar###     </rules>
-                        ####comentar### </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-            <!-- JACOCO COBERTURA DE CODIGO -->            
-        </plugins>
-    </build>
-    
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    
-    <!-- Plugin from Checkstyle to generate reports -->
-    <reporting>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-jdbc</artifactId>
+            <version>0.2.15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.com.six2six</groupId>
+            <artifactId>fixture-factory</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!-- Plugin de empacotamento JAR -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
+                <!-- Plugin para Execução de Testes -->
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
+                <!-- Plugin para Adiocionar o Código Fonte e JavaDoc ao Jar da aplicação -->
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <configuration>
+                        <attach>false</attach>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>attach-javadoc</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Plugin de Compilação do projeto -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <release>${maven.compiler.release}</release>
+                        <encoding>${maven.compile.encoding}</encoding>
+                        <showDeprecation>true</showDeprecation>
+                        <useIncrementalCompilation>false</useIncrementalCompilation>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>0.1.0</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+                            <compilerArg>-Xlint:all,-serial,-processing</compilerArg>
+                            <compilerArg>-parameters</compilerArg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <configLocation>${directory-check}/checkstyle.xml</configLocation>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <linkXRef>false</linkXRef>
-                </configuration>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
         </plugins>
-    </reporting>
+
+    </build>
 </project>
