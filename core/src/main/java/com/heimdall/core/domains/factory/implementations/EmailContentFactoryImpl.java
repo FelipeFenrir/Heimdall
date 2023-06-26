@@ -12,13 +12,6 @@ import com.heimdall.core.domains.factory.EmailContentFactory;
 
 import java.util.Map;
 
-/**
- * <p>
- *      Domain {@link EmailContent} Factory.
- *      This is a implementation of the Design Pattern Abstract Factory.
- * </p>
- * @author Felipe de Andrade Batista
- */
 public class EmailContentFactoryImpl implements EmailContentFactory {
 
     @Override

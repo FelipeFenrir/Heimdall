@@ -10,13 +10,6 @@ import com.heimdall.core.domains.model.EmailContent;
 import com.heimdall.core.domains.model.implementations.EmailImpl;
 import com.heimdall.core.domains.factory.EmailFactory;
 
-/**
- * <p>
- *      Domain {@link Email} Factory.
- *      This is a implementation of the Design Pattern Abstract Factory.
- * </p>
- * @author Felipe de Andrade Batista
- */
 public class EmailFactoryImpl implements EmailFactory {
 
     @Override

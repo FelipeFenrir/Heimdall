@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,7 +26,7 @@ public class GetterAndSetterTester {
     /**
      * Map with default instances for classes.
      */
-    private final Map<Class, Object> defaultInstances;
+    private final Map<Class<?>, Object> defaultInstances;
 
     /**
      * A list of fields that should no be tested.
@@ -38,7 +38,7 @@ public class GetterAndSetterTester {
      * Creates the GetterAndSetterTester.
      */
     public GetterAndSetterTester() {
-        defaultInstances = new HashMap<Class, Object>();
+        defaultInstances = new HashMap<Class<?>, Object>();
 
         defaultInstances.put(boolean.class, Boolean.TRUE);
         defaultInstances.put(byte.class, (byte) 0);
@@ -52,7 +52,7 @@ public class GetterAndSetterTester {
         defaultInstances.put(LocalDate.class, LocalDate.now());
         defaultInstances.put(LocalDateTime.class, LocalDateTime.now());
         defaultInstances.put(UUID.class, UUID.randomUUID());
-        defaultInstances.put(String.class, new String("TESTE"));
+        defaultInstances.put(String.class, "TESTE");
 
         ignoredFields = new LinkedList<String>();
     }
@@ -67,7 +67,7 @@ public class GetterAndSetterTester {
      *
      * @param instances the map with classes and its instances to use.
      */
-    public void addDefaultInstances(final Map<Class, Object> instances) {
+    public void addDefaultInstances(final Map<Class<?>, Object> instances) {
         defaultInstances.putAll(instances);
     }
 
@@ -116,7 +116,7 @@ public class GetterAndSetterTester {
      * @param clazz the class to test.
      */
     public void testClass(final Class<?> clazz) {
-        testInstance(getInstance(clazz));
+        testInstance(Objects.requireNonNull(getInstance(clazz)));
     }
 
 
@@ -169,8 +169,7 @@ public class GetterAndSetterTester {
             }
         }
 
-        if (theMethod != null && !theMethod.getReturnType()
-            .equals(field.getType())) {
+        if (!theMethod.getReturnType().equals(field.getType())) {
             theMethod = null;
         }
         return theMethod;
@@ -345,9 +344,7 @@ public class GetterAndSetterTester {
 
         } catch (Exception e) {
             Constructor<?>[] constructors = aClass.getDeclaredConstructors();
-            for (int i = 0; i < constructors.length; i++) {
-
-                Constructor<?> current = constructors[i];
+            for (Constructor<?> current : constructors) {
 
                 try { //Maybe this helps XD
                     current.setAccessible(true);
@@ -362,12 +359,11 @@ public class GetterAndSetterTester {
 //                    parameters[j] = getInstance(parameterTypes[j]);
 //                }
 
-                List<Class> parameterTypes = Arrays
+                //generates an array of instances of the arguments:
+                Class<?>[] arrayParameterTypes = Arrays
                     .stream(current.getParameterTypes())
                     .filter(aParameter -> !aParameter.isInterface())
-                    .collect(Collectors.toList());
-                //generates an array of instances of the arguments:
-                Class[] arrayParameterTypes = parameterTypes.toArray(new Class[0]);
+                    .toArray(Class[]::new);
                 Object[] parameters = new Object[arrayParameterTypes.length];
                 for (int j = 0; j < arrayParameterTypes.length; j++) {
                     parameters[j] = getInstance(arrayParameterTypes[j]);

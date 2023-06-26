@@ -5,76 +5,63 @@
 
 package com.heimdall.converters.impl;
 
-import com.heimdall.converters.RepositoryConverter;
+import com.heimdall.converters.IRepositoryConverter;
 import com.heimdall.entity.UserDataEntity;
 
+import com.heimdall.core.domains.factory.implementations.UserFactoryImpl;
 import com.heimdall.core.domains.model.User;
-import com.heimdall.core.domains.model.implementations.UserImpl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *     Converter from {@link User} Domain.
- * </p>
- * <p>
- *     Convert {@link User} to {@link UserDataEntity}.
- *     Convert {@link UserDataEntity} to {@link User}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
-public class UserDataConverter implements RepositoryConverter<UserDataEntity, User> {
+@AllArgsConstructor
+public class UserDataConverter implements IRepositoryConverter<UserDataEntity, User> {
 
-    @Autowired
-    private RoleDataConverter roleDataConverter;
+    private final RoleDataConverter roleDataConverter;
 
     @Override
     public UserDataEntity mapToRepository(User domainObject) {
-        return UserDataEntity.builder()
-                .id(domainObject.getId())
-                .username(domainObject.getUsername())
-                .email(domainObject.getEmail())
-                .password(domainObject.getPassword())
-                .tenantid(domainObject.getTenantid())
-                .confirmationToken(domainObject.getConfirmationToken())
-                .enabled(domainObject.isEnabled())
-                .aceptTerm(domainObject.isAcceptTerm())
-                .accountNonExpired(domainObject.isAccountNonExpired())
-                .accountNonLocked(domainObject.isAccountNonLocked())
-                .credentialsNonExpired(domainObject.isCredentialsNonExpired())
-                .roleDataMappers(
-                        domainObject.getRole().stream().map(role ->
-                                roleDataConverter.mapToRepository(role))
-                            .collect(Collectors.toList())
-                )
-                .build();
+        return new UserDataEntity(
+            domainObject.getId(),
+            domainObject.getUsername(),
+            domainObject.getEmail(),
+            domainObject.getPendingEmail(),
+            domainObject.getPassword(),
+            domainObject.getTenantid(),
+            domainObject.isEnabled(),
+            domainObject.getConfirmationToken(),
+            domainObject.isAcceptTerm(),
+            domainObject.isAccountNonLocked(),
+            domainObject.isAccountNonExpired(),
+            domainObject.isCredentialsNonExpired(),
+            domainObject.getRole()
+                .stream()
+                .map(roleDataConverter::mapToRepository)
+                .collect(Collectors.toList())
+        );
     }
 
     @Override
-    public User mapToEntity(UserDataEntity tableObject) {
-        return UserImpl.builder()
-                .id(tableObject.getId())
-                .username(tableObject.getUsername())
-                .email(tableObject.getEmail())
-                .password(tableObject.getPassword())
-                .tenantid(tableObject.getTenantid())
-                .confirmationToken(tableObject.getConfirmationToken())
-                .enabled(tableObject.isEnabled())
-                .acceptTerm(tableObject.isAceptTerm())
-                .accountNonExpired(tableObject.isAccountNonExpired())
-                .accountNonLocked(tableObject.isAccountNonLocked())
-                .credentialsNonExpired(tableObject.isCredentialsNonExpired())
-                .role(
-                        tableObject.getRoleDataMappers().stream().map(roleDataMapper ->
-                                roleDataConverter.mapToEntity(roleDataMapper))
-                                .collect(Collectors.toList()))
-                .createdOn(tableObject.getCreatedOn())
-                .updatedOn(tableObject.getUpdatedOn())
-                .build();
+    public User mapToDomain(UserDataEntity tableObject) {
+        return new UserFactoryImpl().create(
+            tableObject.getId(),
+            tableObject.getUsername(),
+            tableObject.getEmail(),
+            tableObject.getPassword(),
+            tableObject.getTenantid(),
+            tableObject.getConfirmationToken(),
+            tableObject.isEnabled(),
+            tableObject.isAceptTerm(),
+            tableObject.isAccountNonLocked(),
+            tableObject.isAccountNonExpired(),
+            tableObject.isCredentialsNonExpired(),
+            tableObject.getRoleDataMappers()
+                .stream()
+                .map(roleDataConverter::mapToDomain)
+                .collect(Collectors.toList())
+        );
     }
 }

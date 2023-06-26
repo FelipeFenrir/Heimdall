@@ -12,26 +12,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
-/**
- * <p>
- *      {@link ResetEmailTokenDataEntity} Repository interface.
- *      Uses Spring JPA repository.
- * </p>
- *
- * @author Felipe de Andrade Batista
- */
 @Repository
-public interface ResetEmailTokenRepository extends JpaRepository<ResetEmailTokenDataEntity, Long>,
+public interface ResetEmailTokenRepository extends JpaRepository<ResetEmailTokenDataEntity, UUID>,
         JpaSpecificationExecutor<ResetEmailTokenDataEntity> {
 
-    /**
-     * <p>
-     *      Find a Reset Email Token.
-     * </p>
-     * @param resetEmailToken the token for Reset email.
-     * @return {@link ResetEmailTokenDataEntity} which contains the token with the given data
-     * or null.
-     */
     Optional<ResetEmailTokenDataEntity> findByResetEmailToken(String resetEmailToken);
 }

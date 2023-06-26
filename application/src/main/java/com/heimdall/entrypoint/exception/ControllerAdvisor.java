@@ -5,19 +5,14 @@
 
 package com.heimdall.entrypoint.exception;
 
-import com.heimdall.entrypoint.constants.MessageBundleConstants;
+import com.heimdall.entrypoint.boundary.entities.ApiError;
 
-import com.fenrir.rest.utils.BaseRest;
-
-import com.heimdall.entrypoint.util.ApiMessage;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.lang.NonNull;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,115 +20,130 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+//import org.zalando.problem.Problem;
+//import org.zalando.problem.StatusType;
+import org.zalando.problem.spring.common.HttpStatusAdapter;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
+
+//import java.net.URI;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *     Exception Handler of Controller.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
-    @Autowired
-    private MessageSource messages;
+    private static final String PRAGMA_NOCACHE = "no-cache";
 
-    /**
-     * Handle Exception if DataNotFoundException is Throw.
-     * @param ex {@link DataNotFoundException}.
-     * @param request request {@link WebRequest}.
-     * @return {@link ResponseEntity}.
-     */
+    private final MessageSource messages;
+
+    public ControllerAdvisor(MessageSource messages) {
+        this.messages = messages;
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ExceptionHandler(DataNotFoundException.class)
     public ResponseEntity<Object> handleNodataFoundException(DataNotFoundException ex, WebRequest request) {
-        return BaseRest.error(HttpStatus.NO_CONTENT, messages.getMessage(
-                MessageBundleConstants.API_COMMON_RESPONSE_NO_CONTENT, null, request.getLocale())
-        );
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .header(HttpHeaders.PRAGMA, PRAGMA_NOCACHE)
+            .cacheControl(CacheControl.noCache())
+            .cacheControl(CacheControl.noStore())
+            .build();
     }
 
-    /**
-     * Handle Exception if ResourceNotFoundException is Throw.
-     * @param ex {@link ResourceNotFoundException}.
-     * @param request request {@link WebRequest}.
-     * @return {@link ResponseEntity}.
-     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-        return BaseRest.error(HttpStatus.NOT_FOUND, messages.getMessage(
-                MessageBundleConstants.API_COMMON_RESPONSE_NOT_FOUND, null, request.getLocale())
+
+        var problem = problemBuilder(
+            HttpStatus.BAD_REQUEST,
+            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+            messages.getMessage("api.common.response.404.resource.notfound", null, request.getLocale())
         );
+
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .header(HttpHeaders.PRAGMA, PRAGMA_NOCACHE)
+            .cacheControl(CacheControl.noCache())
+            .cacheControl(CacheControl.noStore())
+            .body(problem);
     }
 
-    /**
-     * Handle Exception if MethodArgumentTypeMismatchException is Throw.
-     * @param ex {@link ResourceNotFoundException}.
-     * @param request request {@link WebRequest}.
-     * @return {@link ResponseEntity}.
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Object> handleTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
+    public ResponseEntity<Object> handleTypeMismatch(MethodArgumentTypeMismatchException ex,
+                                                     WebRequest request) {
         final String name = ex.getName();
         final String type = Objects.requireNonNull(ex.getRequiredType()).getSimpleName();
         final Object value = ex.getValue();
         final String message = messages.getMessage(
-                MessageBundleConstants.API_COMMON_RESPONSE_BAD_REQUEST_TYPE_MISMATCH,
+                "api.common.response.400.badrequest.typemismatch",
                 null,
                 request.getLocale());
         final String title = messages.getMessage(
-                MessageBundleConstants.API_COMMON_RESPONSE_BAD_REQUEST,
+                "api.common.response.400.badrequest",
                 null,
                 request.getLocale());
         final String formattedMessage = String.format(message, name, type, value);
-        final ApiMessage apiMessage = new ApiMessage();
-        apiMessage.setTitulo(title);
-        apiMessage.setTexto(formattedMessage);
 
-        return BaseRest.error(
-                HttpStatus.BAD_REQUEST,
-                HttpStatus.BAD_REQUEST.toString(),
-                apiMessage);
+        var problem = problemBuilder(
+            HttpStatus.BAD_REQUEST,
+            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+            Map.of(title, formattedMessage)
+        );
+
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .header(HttpHeaders.PRAGMA, PRAGMA_NOCACHE)
+            .cacheControl(CacheControl.noCache())
+            .cacheControl(CacheControl.noStore())
+            .body(problem);
     }
 
-    /**
-     * Handle Exception if MethodArgumentNotValidException is Throw.
-     * @param ex {@link MethodArgumentNotValidException}.
-     * @param headers {@link HttpHeaders}.
-     * @param status {@link HttpStatus}.
-     * @param request {@link WebRequest}.
-     * @return {@link ResponseEntity}.
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected @NotNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                            @NonNull HttpHeaders headers,
-                                                                           @NonNull HttpStatus status,
+                                                                           @NonNull HttpStatusCode status,
                                                                            @NonNull WebRequest request) {
 
-//        List<String> errors = ex.getBindingResult()
-//                .getFieldErrors()
-//                .stream()
-//                .map(x -> x.getDefaultMessage())
-//                .collect(Collectors.toList());
-
-        List<ApiMessage> errors = ex.getBindingResult()
+        Map<String, Object> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(fieldError -> {
-                    ApiMessage message = new ApiMessage();
-                    message.setTitulo(fieldError.getField());
-                    message.setTexto(fieldError.getDefaultMessage());
-                    return message;
-                })
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
 
-        return BaseRest.error(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.toString(), errors);
+        var problem = problemBuilder(
+            HttpStatus.BAD_REQUEST,
+            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+            errors
+            );
+
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .header(HttpHeaders.PRAGMA, PRAGMA_NOCACHE)
+            .cacheControl(CacheControl.noCache())
+            .cacheControl(CacheControl.noStore())
+            .body(problem);
+    }
+
+    private ApiError problemBuilder(HttpStatus status, String title, String detail) {
+        var statusType = new HttpStatusAdapter(status);
+        return ApiError.builder()
+            .status(statusType)
+            //.type(URI.create("https://example.org/out-of-stock"))
+            .title(title)
+            .detail(detail)
+            .build();
+    }
+
+    private ApiError problemBuilder(HttpStatus status, String title, String detail, Map<String, Object> parameters) {
+        var problem = problemBuilder(status, title, detail);
+        problem.setParameters(parameters);
+        return problem;
     }
 }

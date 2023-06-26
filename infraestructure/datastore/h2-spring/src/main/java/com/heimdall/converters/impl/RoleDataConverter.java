@@ -5,57 +5,44 @@
 
 package com.heimdall.converters.impl;
 
-import com.heimdall.converters.RepositoryConverter;
+import com.heimdall.core.domains.factory.implementations.RoleFactoryImpl;
+import com.heimdall.core.domains.model.Role;
+
+import com.heimdall.converters.IRepositoryConverter;
 import com.heimdall.entity.RoleDataEntity;
 
-import com.heimdall.core.domains.model.Role;
-import com.heimdall.core.domains.model.implementations.RoleImpl;
-
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *     Converter from {@link Role} Domain.
- * </p>
- * <p>
- *     Convert {@link Role} to {@link RoleDataEntity}.
- *     Convert {@link RoleDataEntity} to {@link Role}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
-public class RoleDataConverter implements RepositoryConverter<RoleDataEntity, Role> {
+@AllArgsConstructor
+public class RoleDataConverter implements IRepositoryConverter<RoleDataEntity, Role> {
 
-    @Autowired
-    private PermissionDataConverter permissionDataConverter;
+    private final PermissionDataConverter permissionDataConverter;
 
     @Override
     public RoleDataEntity mapToRepository(Role domainObject) {
-        return RoleDataEntity.builder()
-                .id(domainObject.getId())
-                .name(domainObject.getName())
-                .permissionDataMappers(
-                        domainObject.getPermission().stream()
-                                .map(permission ->
-                                        permissionDataConverter.mapToRepository(permission))
-                                .collect(Collectors.toList()))
-                .build();
+        return new RoleDataEntity(
+            domainObject.getId(),
+            domainObject.getName(),
+            domainObject.getPermission()
+                .stream()
+                .map(permissionDataConverter::mapToRepository)
+                .collect(Collectors.toList())
+        );
     }
 
     @Override
-    public RoleImpl mapToEntity(RoleDataEntity tableObject) {
-        return RoleImpl.builder()
-                .id(tableObject.getId())
-                .name(tableObject.getName())
-                .permission(
-                        tableObject.getPermissionDataMappers().stream()
-                                .map(permissionDataMapper ->
-                                        permissionDataConverter.mapToEntity(permissionDataMapper))
-                                .collect(Collectors.toList()))
-                .build();
+    public Role mapToDomain(RoleDataEntity tableObject) {
+        return new RoleFactoryImpl().create(
+            tableObject.getId(),
+            tableObject.getName(),
+            tableObject.getPermissionDataMappers()
+                .stream()
+                .map(permissionDataConverter::mapToDomain)
+                .collect(Collectors.toList())
+        );
     }
 }

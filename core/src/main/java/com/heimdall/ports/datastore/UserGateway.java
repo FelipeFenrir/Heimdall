@@ -8,6 +8,7 @@ package com.heimdall.ports.datastore;
 import com.heimdall.core.domains.model.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * <p>
@@ -42,7 +43,7 @@ public interface UserGateway {
      * @param id {@link User} ID.
      * @return {@link User} in {@link Optional}.
      */
-    Optional<User> findById(long id);
+    Optional<User> findById(UUID id);
 
     /**
      * <p>

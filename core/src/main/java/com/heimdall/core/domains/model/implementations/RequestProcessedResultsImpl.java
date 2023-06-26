@@ -6,12 +6,17 @@ package com.heimdall.core.domains.model.implementations;
 
 import com.heimdall.core.domains.model.RequestProcessedResults;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 /**
  * <p>
  *     Request Results Domain.
  * </p>
  * @author Felipe de Andrade Batista
  */
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class RequestProcessedResultsImpl implements RequestProcessedResults {
 
     private String browserName;
@@ -23,7 +28,7 @@ public class RequestProcessedResultsImpl implements RequestProcessedResults {
      * <p>
      *      Construct Method.
      * </p>
-     * @param operatingSystem Name of Operation System.
+     * @param operatingSystem Name of Operating System.
      * @param browserName Name of Browser (Internet Browser).
      * @param ipaddress IP Address of Request.
      * @param uri URL of Request.
@@ -87,7 +92,7 @@ public class RequestProcessedResultsImpl implements RequestProcessedResults {
 
     /**
      * Set Operating System of Request.
-     * @param operatingSystem Name of Operation System.
+     * @param operatingSystem Name of Operating System.
      */
     public void setOperatingSystem(String operatingSystem) {
         this.operatingSystem = operatingSystem;

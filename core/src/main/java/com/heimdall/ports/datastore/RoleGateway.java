@@ -8,6 +8,7 @@ package com.heimdall.ports.datastore;
 import com.heimdall.core.domains.model.Role;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * <p>
@@ -34,5 +35,5 @@ public interface RoleGateway {
      * @param id {@link Role} ID.
      * @return {@link Role} returns an {@link Optional} with {@link Role} object which contains the role or null.
      */
-    Optional<Role> findById(Long id);
+    Optional<Role> findById(UUID id);
 }

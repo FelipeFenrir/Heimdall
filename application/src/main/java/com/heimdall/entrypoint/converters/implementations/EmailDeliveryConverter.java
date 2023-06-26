@@ -11,25 +11,16 @@ import com.heimdall.entrypoint.converters.IDeliveryConverter;
 import com.heimdall.core.domains.model.Email;
 import com.heimdall.core.domains.model.implementations.EmailImpl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * <p>
- *     Converter from {@link Email} Domain.
- * </p>
- * <p>
- *     Convert {@link Email} to {@link EmailDto}.
- *     Convert {@link EmailDto} to {@link Email}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
+@AllArgsConstructor
 public class EmailDeliveryConverter implements IDeliveryConverter<IEmailDto, Email> {
 
-    @Autowired
-    private EmailContentDeliveryConverter emailContentDeliveryConverter;
+    private final EmailContentDeliveryConverter emailContentDeliveryConverter;
 
     @Override
     public IEmailDto mapToBoundary(Email domainObject) {

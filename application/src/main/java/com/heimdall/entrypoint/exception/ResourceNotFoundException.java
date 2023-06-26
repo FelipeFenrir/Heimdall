@@ -5,45 +5,13 @@
 
 package com.heimdall.entrypoint.exception;
 
-import com.heimdall.entrypoint.util.ApiMessage;
-
-/**
- * Exception throws when Resource is not found in Source.
- * @author Felipe de Andrade Batista
- */
 public class ResourceNotFoundException extends RuntimeException {
 
-    /**
-     * Constructor.
-     * @param message Message of Exception.
-     */
     public ResourceNotFoundException(String message) {
         super(message);
     }
 
-    /**
-     * Constructor.
-     * @param message Message of Exception.
-     * @param cause {@link Throwable} cause of Exception.
-     */
     public ResourceNotFoundException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    /**
-     * Constructor.
-     * @param message Is {@link ApiMessage} representing message of Exception.
-     */
-    public ResourceNotFoundException(ApiMessage message) {
-        super(message.getTitulo().concat(" : ").concat(message.getTexto()));
-    }
-
-    /**
-     * Constructor.
-     * @param message Is {@link ApiMessage} representing message of Exception.
-     * @param cause {@link Throwable} cause of Exception.
-     */
-    public ResourceNotFoundException(ApiMessage message, Throwable cause) {
-        super(message.getTitulo().concat(" : ").concat(message.getTexto()), cause);
     }
 }

@@ -13,13 +13,6 @@ import com.heimdall.core.domains.factory.RoleFactory;
 import java.util.Collection;
 import java.util.UUID;
 
-/**
- * <p>
- *      Domain {@link Role} Factory.
- *      This is a implementation of the Design Pattern Abstract Factory.
- * </p>
- * @author Felipe de Andrade Batista
- */
 public class RoleFactoryImpl implements RoleFactory {
 
     @Override

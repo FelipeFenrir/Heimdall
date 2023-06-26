@@ -23,11 +23,6 @@ public class MvObjectConstants {
 
     public static final String LOGIN_LINK_PAGE = "loginLink";
 
-    /**
-     * <p>
-     *     Private constructor to prevent instance this class.
-     * </p>
-     */
     private MvObjectConstants() {
         throw new IllegalStateException("Utility Class");
     }

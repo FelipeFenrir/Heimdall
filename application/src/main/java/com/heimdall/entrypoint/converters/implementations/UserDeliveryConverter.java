@@ -11,27 +11,16 @@ import com.heimdall.core.domains.model.implementations.UserImpl;
 import com.heimdall.entrypoint.boundary.dto.implementations.UserDto;
 import com.heimdall.entrypoint.converters.IDeliveryConverter;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *     Converter from {@link User} Domain.
- * </p>
- * <p>
- *     Convert {@link User} to {@link UserDto}.
- *     Convert {@link UserDto} to {@link User}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
+@AllArgsConstructor
 public class UserDeliveryConverter implements IDeliveryConverter<UserDto, User> {
 
-    @Autowired
-    private RoleDeliveryConverter roleDeliveryConverter;
+    private final RoleDeliveryConverter roleDeliveryConverter;
 
     @Override
     public UserDto mapToBoundary(User domainObject) {
@@ -47,7 +36,7 @@ public class UserDeliveryConverter implements IDeliveryConverter<UserDto, User> 
                 .accountNonExpired(domainObject.isAccountNonExpired())
                 .accountNonLocked(domainObject.isAccountNonLocked())
                 .credentialsNonExpired(domainObject.isCredentialsNonExpired())
-                .roleBoundaryMapper(domainObject.getRole().stream()
+                .roles(domainObject.getRole().stream()
                         .map(role ->
                                 roleDeliveryConverter.mapToBoundary(role))
                         .collect(Collectors.toList()))
@@ -70,7 +59,7 @@ public class UserDeliveryConverter implements IDeliveryConverter<UserDto, User> 
                 .accountNonExpired(boundaryObject.isAccountNonExpired())
                 .accountNonLocked(boundaryObject.isAccountNonLocked())
                 .credentialsNonExpired(boundaryObject.isCredentialsNonExpired())
-                .role(boundaryObject.getRoleBoundaryMapper().stream()
+                .role(boundaryObject.getRoles().stream()
                         .map(role ->
                                 roleDeliveryConverter.mapToEntity(role))
                         .collect(Collectors.toList()))

@@ -15,28 +15,26 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
-//@Service
 @AllArgsConstructor
 public class RoleService implements RoleGateway {
 
-    //@Autowired
     private final RoleRepository roleRepository;
 
-    //@Autowired
     private final RoleDataConverter roleDataConverter;
 
     @Override
     public Optional<Role> findByName(String rolename) {
-        return Optional.of(roleDataConverter.mapToEntity(
+        return Optional.of(roleDataConverter.mapToDomain(
                 roleRepository.findByName(rolename).get()
         ));
     }
 
     @Override
-    public Optional<Role> findById(Long id) {
-        return Optional.of(roleDataConverter.mapToEntity(
+    public Optional<Role> findById(UUID id) {
+        return Optional.of(roleDataConverter.mapToDomain(
                 roleRepository.findById(id).get()
         ));
     }

@@ -8,6 +8,7 @@ package com.heimdall.ports.datastore;
 import com.heimdall.core.domains.model.Permission;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * <p>
@@ -36,5 +37,5 @@ public interface PermissionGateway {
      * @return {@link Permission} returns an {@link Optional} with
      * {@link Permission} object which contains the role or null.
      */
-    Optional<Permission> findById(Long id);
+    Optional<Permission> findById(UUID id);
 }

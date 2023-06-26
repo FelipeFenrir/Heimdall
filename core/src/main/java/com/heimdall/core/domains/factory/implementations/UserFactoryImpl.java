@@ -13,13 +13,6 @@ import com.heimdall.core.domains.factory.UserFactory;
 import java.util.Collection;
 import java.util.UUID;
 
-/**
- * <p>
- *      Domain {@link User} Factory.
- *      This is a implementation of the Design Pattern Abstract Factory.
- * </p>
- * @author Felipe de Andrade Batista
- */
 public class UserFactoryImpl implements UserFactory {
 
     @Override

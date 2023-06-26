@@ -13,13 +13,6 @@ import com.heimdall.core.domains.factory.ResetEmailTokenFactory;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * <p>
- *      Domain {@link ResetEmailToken} Factory.
- *      This is a implementation of the Design Pattern Abstract Factory.
- * </p>
- * @author Felipe de Andrade Batista
- */
 public class ResetEmailTokenFactoryImpl implements ResetEmailTokenFactory {
 
     @Override

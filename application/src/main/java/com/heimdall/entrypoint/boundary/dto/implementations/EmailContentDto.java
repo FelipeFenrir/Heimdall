@@ -7,7 +7,7 @@ package com.heimdall.entrypoint.boundary.dto.implementations;
 
 import com.heimdall.entrypoint.boundary.dto.IEmailContentDto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+//import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Map;
 
-@Schema(name = "EmailContent")
+//@Schema(name = "EmailContent")
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)

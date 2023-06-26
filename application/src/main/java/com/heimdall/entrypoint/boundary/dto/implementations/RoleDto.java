@@ -7,7 +7,7 @@ package com.heimdall.entrypoint.boundary.dto.implementations;
 
 import com.heimdall.entrypoint.boundary.dto.IBaseDto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+//import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Schema(name = "Role")
+//@Schema(name = "Role")
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -29,7 +29,7 @@ public class RoleDto extends RepresentationModel<RoleDto> implements IBaseDto {
 
     private UUID id;
     private String name;
-    private List<PermissionDto> permissionBoundaryMappers;
+    private List<PermissionDto> permissions;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 }

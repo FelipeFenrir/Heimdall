@@ -5,51 +5,40 @@
 
 package com.heimdall.converters.impl;
 
-import com.heimdall.converters.RepositoryConverter;
+import com.heimdall.converters.IRepositoryConverter;
 import com.heimdall.entity.ResetEmailTokenDataEntity;
 
 import com.heimdall.core.domains.model.ResetEmailToken;
 import com.heimdall.core.domains.model.implementations.ResetEmailTokenImpl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-/**
- * <p>
- *     Converter from {@link ResetEmailToken} Domain.
- * </p>
- * <p>
- *     Convert {@link ResetEmailToken} to {@link ResetEmailTokenDataEntity}.
- *     Convert {@link ResetEmailTokenDataEntity} to {@link ResetEmailToken}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
-public class ResetEmailTokenDataConverter implements RepositoryConverter<ResetEmailTokenDataEntity, ResetEmailToken> {
+@AllArgsConstructor
+public class ResetEmailTokenDataConverter implements IRepositoryConverter<ResetEmailTokenDataEntity, ResetEmailToken> {
 
-    @Autowired
-    private UserDataConverter userDataConverter;
+    private final UserDataConverter userDataConverter;
 
     @Override
     public ResetEmailTokenDataEntity mapToRepository(ResetEmailToken domainObject) {
-        return ResetEmailTokenDataEntity.builder()
-                .id(domainObject.getId())
-                .pendingEmail(domainObject.getPendingEmail())
-                .resetEmailToken(domainObject.getResetEmailToken())
-                .expiryDate(domainObject.getExpiryDate())
-                .userDataMapper(userDataConverter.mapToRepository(domainObject.getUser()))
-                .build();
+        return new ResetEmailTokenDataEntity(
+            domainObject.getId(),
+            domainObject.getPendingEmail(),
+            domainObject.getResetEmailToken(),
+            userDataConverter.mapToRepository(domainObject.getUser()),
+            domainObject.getExpiryDate()
+        );
     }
 
     @Override
-    public ResetEmailToken mapToEntity(ResetEmailTokenDataEntity tableObject) {
+    public ResetEmailToken mapToDomain(ResetEmailTokenDataEntity tableObject) {
         return ResetEmailTokenImpl.builder()
                 .id(tableObject.getId())
                 .pendingEmail(tableObject.getPendingEmail())
                 .resetEmailToken(tableObject.getResetEmailToken())
                 .expiryDate(tableObject.getExpiryDate())
-                .user(userDataConverter.mapToEntity(tableObject.getUserDataMapper()))
+                .user(userDataConverter.mapToDomain(tableObject.getUserDataMapper()))
                 .build();
     }
 }

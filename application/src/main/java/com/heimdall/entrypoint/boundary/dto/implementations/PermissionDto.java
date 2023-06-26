@@ -7,7 +7,7 @@ package com.heimdall.entrypoint.boundary.dto.implementations;
 
 import com.heimdall.entrypoint.boundary.dto.IBaseDto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+//import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +27,7 @@ import java.util.UUID;
  *
  * @author Felipe de Andrade Batista
  */
-@Schema(name = "Permission")
+//@Schema(name = "Permission")
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)

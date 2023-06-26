@@ -11,19 +11,11 @@ import com.heimdall.core.domains.model.implementations.PermissionImpl;
 import com.heimdall.entrypoint.boundary.dto.implementations.PermissionDto;
 import com.heimdall.entrypoint.converters.IDeliveryConverter;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * <p>
- *     Converter from {@link Permission} Domain.
- * </p>
- * <p>
- *     Convert {@link Permission} to {@link PermissionDto}.
- *     Convert {@link PermissionDto} to {@link Permission}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
+@AllArgsConstructor
 public class PermissionDeliveryConverter implements IDeliveryConverter<PermissionDto, Permission> {
 
     @Override

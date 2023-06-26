@@ -16,27 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
-/**
- * <p>
- *      Reset Email Service implementation.
- * </p>
- *
- * @author Felipe de Andrade Batista
- */
 @Slf4j
-//@Service
 @AllArgsConstructor
 public class ResetEmailTokenService implements ResetEmailTokenGateway {
 
-    //@Autowired
-    private ResetEmailTokenRepository resetEmailTokenRepository;
+    private final ResetEmailTokenRepository resetEmailTokenRepository;
 
-    //@Autowired
-    private ResetEmailTokenDataConverter resetEmailTokenDataConverter;
+    private final ResetEmailTokenDataConverter resetEmailTokenDataConverter;
 
     @Override
     public ResetEmailToken save(ResetEmailToken resetEmailToken) {
-        return resetEmailTokenDataConverter.mapToEntity(
+        return resetEmailTokenDataConverter.mapToDomain(
                 resetEmailTokenRepository.save(
                         resetEmailTokenDataConverter.mapToRepository(resetEmailToken)
                 ));
@@ -49,7 +39,7 @@ public class ResetEmailTokenService implements ResetEmailTokenGateway {
 
     @Override
     public Optional<ResetEmailToken> findByToken(String resetEmailToken) {
-        return Optional.of(resetEmailTokenDataConverter.mapToEntity(
+        return Optional.of(resetEmailTokenDataConverter.mapToDomain(
                 resetEmailTokenRepository.findByResetEmailToken(resetEmailToken).get()
         ));
     }

@@ -5,40 +5,32 @@
 
 package com.heimdall.converters.impl;
 
-import com.heimdall.converters.RepositoryConverter;
+import com.heimdall.core.domains.factory.implementations.PermissionFactoryImpl;
+import com.heimdall.core.domains.model.Permission;
+
+import com.heimdall.converters.IRepositoryConverter;
 import com.heimdall.entity.PermissionDataEntity;
 
-import com.heimdall.core.domains.model.Permission;
-import com.heimdall.core.domains.model.implementations.PermissionImpl;
-
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * <p>
- *     Converter from {@link Permission} Domain.
- * </p>
- * <p>
- *     Convert {@link Permission} to {@link PermissionDataEntity}.
- *     Convert {@link PermissionDataEntity} to {@link Permission}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
-public class PermissionDataConverter implements RepositoryConverter<PermissionDataEntity, Permission> {
+@NoArgsConstructor
+public class PermissionDataConverter implements IRepositoryConverter<PermissionDataEntity, Permission> {
 
     @Override
     public PermissionDataEntity mapToRepository(Permission domainObject) {
-        return PermissionDataEntity.builder()
-                .id(domainObject.getId())
-                .name(domainObject.getName())
-                .build();
+        return new PermissionDataEntity(
+            domainObject.getId(),
+            domainObject.getName()
+        );
     }
 
     @Override
-    public Permission mapToEntity(PermissionDataEntity tableObject) {
-        return PermissionImpl.builder()
-                .id(tableObject.getId())
-                .name(tableObject.getName())
-                .build();
+    public Permission mapToDomain(PermissionDataEntity tableObject) {
+        return new PermissionFactoryImpl().create(
+                tableObject.getId(),
+                tableObject.getName()
+        );
     }
 }

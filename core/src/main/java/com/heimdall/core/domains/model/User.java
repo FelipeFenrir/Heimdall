@@ -51,6 +51,14 @@ public interface User extends BaseDomain {
 
     /**
      * <p>
+     *     Get the pending validation e-mail of {@link User}.
+     * </p>
+     * @return {@link User} pending validation e-mail.
+     */
+    String getPendingEmail();
+
+    /**
+     * <p>
      *     Get Password of {@link User}.
      * </p>
      * @return {@link User} Password.
@@ -127,22 +135,6 @@ public interface User extends BaseDomain {
      * @return List of {@link User} {@link Role}.
      */
     Collection<Role> getRole();
-
-//    /**
-//     * <p>
-//     *     Get {@link User} create date.
-//     * </p>
-//     * @return {@link User} create date.
-//     */
-//    LocalDateTime getCreatedOn();
-//
-//    /**
-//     * <p>
-//     *     Get {@link User} last update date.
-//     * </p>
-//     * @return {@link User} last update date.
-//     */
-//    LocalDateTime getUpdatedOn();
 
     /**
      * <p>

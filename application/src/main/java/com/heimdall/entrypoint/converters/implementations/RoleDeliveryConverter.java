@@ -11,36 +11,24 @@ import com.heimdall.core.domains.model.implementations.RoleImpl;
 import com.heimdall.entrypoint.boundary.dto.implementations.RoleDto;
 import com.heimdall.entrypoint.converters.IDeliveryConverter;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 
-/**
- * <p>
- *     Converter from {@link Role} Domain.
- * </p>
- * <p>
- *     Convert {@link Role} to {@link RoleDto}.
- *     Convert {@link RoleDto} to {@link Role}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
+@AllArgsConstructor
 public class RoleDeliveryConverter implements IDeliveryConverter<RoleDto, Role> {
 
-    @Autowired
-    private PermissionDeliveryConverter permissionDeliveryConverter;
+    private final PermissionDeliveryConverter permissionDeliveryConverter;
 
     @Override
     public RoleDto mapToBoundary(Role domainObject) {
         return RoleDto.builder()
                 .id(domainObject.getId())
                 .name(domainObject.getName())
-                .permissionBoundaryMappers(domainObject.getPermission().stream()
-                        .map(permission ->
-                                permissionDeliveryConverter.mapToBoundary(permission))
+                .permissions(domainObject.getPermission().stream()
+                        .map(permissionDeliveryConverter::mapToBoundary)
                         .collect(Collectors.toList()))
                 .build();
     }
@@ -51,9 +39,8 @@ public class RoleDeliveryConverter implements IDeliveryConverter<RoleDto, Role> 
                 .id(boundaryObject.getId())
                 .name(boundaryObject.getName())
                 .permission(
-                        boundaryObject.getPermissionBoundaryMappers().stream()
-                            .map(permissionBoundary ->
-                                    permissionDeliveryConverter.mapToEntity(permissionBoundary))
+                        boundaryObject.getPermissions().stream()
+                            .map(permissionDeliveryConverter::mapToEntity)
                             .collect(Collectors.toList())
                 )
                 .build();

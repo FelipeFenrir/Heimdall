@@ -17,7 +17,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -40,6 +42,7 @@ public class UserImpl implements User {
     @NotNull
     @NotEmpty
     private String email;
+    private String pendingEmail;
     @NotNull
     @NotEmpty
     private String password;

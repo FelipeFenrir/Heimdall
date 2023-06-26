@@ -13,19 +13,11 @@ import com.heimdall.core.domains.model.EmailContent;
 //import com.heimdall.core.entity.domain.implementations.EmailContentImpl;
 import com.heimdall.core.domains.factory.implementations.EmailContentFactoryImpl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * <p>
- *     Converter from {@link EmailContent} Domain.
- * </p>
- * <p>
- *     Convert {@link EmailContent} to {@link IEmailContentDto}.
- *     Convert {@link IEmailContentDto} to {@link EmailContent}.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Slf4j
+@AllArgsConstructor
 public class EmailContentDeliveryConverter implements IDeliveryConverter<IEmailContentDto, EmailContent> {
 
     @Override

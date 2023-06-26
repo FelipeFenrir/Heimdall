@@ -7,6 +7,7 @@ package com.heimdall.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,17 +19,11 @@ import javax.persistence.Version;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * <p>
- *      <h2>BaseDataEntity.</h2>
- *      MappedSuperclass that contains all the necessary fields.
- * </p>
- * @author Felipe de Andrade Batista
- */
 @Getter
 @Setter
 @MappedSuperclass
 @NoArgsConstructor
+@Accessors(chain = true)
 public class BaseDataEntity implements Serializable {
 
     private static final long serialVersionUID = 8606463085240844337L;
@@ -40,7 +35,7 @@ public class BaseDataEntity implements Serializable {
      * </p>
      */
     @Version
-    @Column(name = "version", nullable = false)
+    @Column(nullable = false)
     private Long version;
 
     /**
@@ -49,7 +44,7 @@ public class BaseDataEntity implements Serializable {
      * </p>
      */
     @CreationTimestamp
-    @Column(name = "created_on", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
     /**
@@ -58,6 +53,6 @@ public class BaseDataEntity implements Serializable {
      * </p>
      */
     @UpdateTimestamp
-    @Column(name = "updated_on", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedOn;
 }

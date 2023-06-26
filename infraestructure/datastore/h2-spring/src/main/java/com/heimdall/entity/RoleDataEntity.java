@@ -4,57 +4,30 @@
  */
 package com.heimdall.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
+import lombok.*;
+import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * <p>
- *      Role Data Mapper class from dataprovider layer.
- * </p>
- *
- * @author Felipe de Andrade Batista
- */
 @Entity
 @Table(name = "roles")
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
+@ToString
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@SuppressWarnings({"PersistenceUnitPresent"})
-public class RoleDataEntity extends BaseDataEntity implements Serializable {
-
-    private static final long serialVersionUID = 3402536259112257571L;
+@AllArgsConstructor
+@Accessors(chain = true)
+public class RoleDataEntity extends BaseDataEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "nativeGenerator")
-    @GenericGenerator(name = "nativeGenerator", strategy = "native")
-    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)

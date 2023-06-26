@@ -13,13 +13,6 @@ import com.heimdall.core.domains.factory.ResetPasswordTokenFactory;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * <p>
- *      Domain {@link ResetPasswordToken} Factory.
- *      This is a implementation of the Design Pattern Abstract Factory.
- * </p>
- * @author Felipe de Andrade Batista
- */
 public class ResetPasswordTokenFactoryImpl implements ResetPasswordTokenFactory {
 
     @Override

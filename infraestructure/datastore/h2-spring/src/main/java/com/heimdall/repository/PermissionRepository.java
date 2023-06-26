@@ -11,16 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-/**
- * <p>
- *      {@link PermissionDataEntity} Repository interface.
- *      Uses Spring JPA repository.
- * </p>
- *
- * @author Felipe de Andrade Batista
- */
-@Repository
-public interface PermissionRepository extends JpaRepository<PermissionDataEntity, Long>,
-        JpaSpecificationExecutor<PermissionDataEntity> {
+import java.util.UUID;
 
+@Repository
+public interface PermissionRepository extends JpaRepository<PermissionDataEntity, UUID>,
+        JpaSpecificationExecutor<PermissionDataEntity> {
 }

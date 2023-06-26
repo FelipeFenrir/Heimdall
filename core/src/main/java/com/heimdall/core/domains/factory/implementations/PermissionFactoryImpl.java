@@ -11,13 +11,6 @@ import com.heimdall.core.domains.factory.PermissionFactory;
 
 import java.util.UUID;
 
-/**
- * <p>
- *      Domain {@link Permission} Factory.
- *      This is a implementation of the Design Pattern Abstract Factory.
- * </p>
- * @author Felipe de Andrade Batista
- */
 public class PermissionFactoryImpl implements PermissionFactory {
     @Override
     public Permission create(String name) {

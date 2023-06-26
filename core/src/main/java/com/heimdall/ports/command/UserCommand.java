@@ -33,17 +33,18 @@ public interface UserCommand {
 
     /**
      * <p>
+     *     Get {@link User} data.
+     * </p>
+     * @param usermail {@link User} usermail.
+     * @return {@link User}.
+     */
+    User getUserByEmail(String usermail) throws UserNotFoundException;
+
+    /**
+     * <p>
      *     Delete {@link User}.
      * </p>
      * @param username {@link User} username.
      */
     void deleteUser(String username) throws UserNotFoundException;
-
-    /**
-     * <p>
-     *     Revoke all tokens to logout {@link User}.
-     * </p>
-     * @param username {@link User} usename.
-     */
-    void revokeAllTokens(String username);
 }

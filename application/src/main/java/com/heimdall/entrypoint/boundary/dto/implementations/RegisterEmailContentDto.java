@@ -7,8 +7,6 @@ package com.heimdall.entrypoint.boundary.dto.implementations;
 
 import com.heimdall.entrypoint.boundary.dto.IEmailContentDto;
 
-//import io.swagger.annotations.ApiModel;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +17,6 @@ import org.springframework.hateoas.RepresentationModel;
 import java.util.HashMap;
 import java.util.Map;
 
-//@ApiModel(value = "EmailContent")
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)

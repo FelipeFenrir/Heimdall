@@ -2,7 +2,6 @@
  * Copyright (c) 2021. Fenrir Solucoes em Tecnologia. All rights reserved.
  *  Fenrir Systems, Odin System and All the Programing Code of this softwares are private.
  */
-
 package com.heimdall.core.domains.validator;
 
 import javax.validation.ConstraintViolation;
@@ -13,13 +12,6 @@ import javax.validation.ValidatorFactory;
 
 import java.util.Set;
 
-/**
- * <p>
- *      Class to perform a self validation on other classes.
- * </p>
- * @param <T> Class to be self-validating
- * @author Felipe de Andrade Batista
- */
 public abstract class SelfValidating<T> {
 
     private final Validator validator;

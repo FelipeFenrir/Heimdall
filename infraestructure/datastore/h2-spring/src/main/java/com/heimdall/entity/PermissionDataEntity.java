@@ -4,51 +4,28 @@
  */
 package com.heimdall.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Accessors;
 
-import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * <p>
- *      Permission Data Mapper class from dataprovider layer.
- * </p>
- *
- * @author Felipe de Andrade Batista
- */
 @Entity
 @Table(name = "permissions")
 @Getter
 @Setter
-@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@SuppressWarnings({"PersistenceUnitPresent"})
-public class PermissionDataEntity extends BaseDataEntity implements Serializable {
-
-    private static final long serialVersionUID = 6682717553223623346L;
+@Accessors(chain = true)
+public class PermissionDataEntity extends BaseDataEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "nativeGenerator")
-    @GenericGenerator(name = "nativeGenerator", strategy = "native")
-    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 }

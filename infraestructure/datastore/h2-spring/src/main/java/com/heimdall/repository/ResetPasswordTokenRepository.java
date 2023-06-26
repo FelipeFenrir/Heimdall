@@ -11,26 +11,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
-/**
- * <p>
- *      {@link ResetPasswordTokenDataEntity} Repository interface.
- *      Uses Spring JPA repository.
- * </p>
- *
- * @author Felipe de Andrade Batista
- */
 @Repository
-public interface ResetPasswordTokenRepository extends JpaRepository<ResetPasswordTokenDataEntity, Long>,
+public interface ResetPasswordTokenRepository extends JpaRepository<ResetPasswordTokenDataEntity, UUID>,
         JpaSpecificationExecutor<ResetPasswordTokenDataEntity> {
 
-    /**
-     * <p>
-     *      Find a Reset Password Token.
-     * </p>
-     * @param resetPassToken the token for Reset password.
-     * @return {@link ResetPasswordTokenDataEntity} which contains the token with the given data
-     * or null.
-     */
-    Optional<ResetPasswordTokenDataEntity> findByResetPassToken(String resetPassToken);
+    Optional<ResetPasswordTokenDataEntity> findByResetpassToken(String resetpassToken);
 }

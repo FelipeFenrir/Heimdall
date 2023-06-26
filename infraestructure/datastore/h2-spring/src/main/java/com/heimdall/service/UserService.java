@@ -15,21 +15,19 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
-//@Service
 @AllArgsConstructor
 public class UserService implements UserGateway {
 
-    //@Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    //@Autowired
-    private UserDataConverter userDataConverter;
+    private final UserDataConverter userDataConverter;
 
     @Override
     public User save(User user) {
-        return userDataConverter.mapToEntity(userRepository.save(userDataConverter.mapToRepository(user)));
+        return userDataConverter.mapToDomain(userRepository.save(userDataConverter.mapToRepository(user)));
     }
 
     @Override
@@ -38,29 +36,29 @@ public class UserService implements UserGateway {
     }
 
     @Override
-    public Optional<User> findById(long id) {
-        return Optional.of(userDataConverter.mapToEntity(
+    public Optional<User> findById(UUID id) {
+        return Optional.of(userDataConverter.mapToDomain(
                 userRepository.findById(id).get()
         ));
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.of(userDataConverter.mapToEntity(
+        return Optional.of(userDataConverter.mapToDomain(
                 userRepository.findByEmail(email).get()
         ));
     }
 
     @Override
     public Optional<User> findByUsername(String username) {
-        return Optional.of(userDataConverter.mapToEntity(
+        return Optional.of(userDataConverter.mapToDomain(
                 userRepository.findByUsername(username).get()
         ));
     }
 
     @Override
     public Optional<User> findByConfirmationToken(String token) {
-        return Optional.of(userDataConverter.mapToEntity(
+        return Optional.of(userDataConverter.mapToDomain(
                 userRepository.findByConfirmationToken(token).get()
         ));
     }

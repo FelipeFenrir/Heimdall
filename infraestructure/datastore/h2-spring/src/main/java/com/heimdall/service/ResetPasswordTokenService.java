@@ -16,27 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
-/**
- * <p>
- *      Reset Password Service implementation.
- * </p>
- *
- * @author Felipe de Andrade Batista
- */
 @Slf4j
-//@Service
 @AllArgsConstructor
 public class ResetPasswordTokenService implements ResetPasswordTokenGateway {
 
-    //@Autowired
-    private ResetPasswordTokenRepository resetPasswordTokenRepository;
+    private final ResetPasswordTokenRepository resetPasswordTokenRepository;
 
-    //@Autowired
-    private ResetPasswordTokenDataConverter resetPasswordTokenDataConverter;
+    private final ResetPasswordTokenDataConverter resetPasswordTokenDataConverter;
 
     @Override
     public ResetPasswordToken save(ResetPasswordToken resetPasswordToken) {
-        return resetPasswordTokenDataConverter.mapToEntity(
+        return resetPasswordTokenDataConverter.mapToDomain(
                 resetPasswordTokenRepository.save(
                         resetPasswordTokenDataConverter.mapToRepository(resetPasswordToken)
                 ));
@@ -49,8 +39,8 @@ public class ResetPasswordTokenService implements ResetPasswordTokenGateway {
 
     @Override
     public Optional<ResetPasswordToken> findByToken(String resetPassToken) {
-        return Optional.of(resetPasswordTokenDataConverter.mapToEntity(
-                resetPasswordTokenRepository.findByResetPassToken(resetPassToken).get()
+        return Optional.of(resetPasswordTokenDataConverter.mapToDomain(
+                resetPasswordTokenRepository.findByResetpassToken(resetPassToken).get()
         ));
     }
 }
